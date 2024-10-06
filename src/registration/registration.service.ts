@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { TshirtGroupDto } from './dto/tshirt-group.dto';
-import { QuestionDto } from './dto/question.dto';
-import { ApprovalDto } from './dto/approval.dto';
-import { SettingDto } from './dto/setting.dto';
-import { RegistrationDto } from './dto/registration.dto';
-import { AttachmentDto } from './dto/attachment.dto';
-import { SASToken } from './dto/sas-token.dto';
+import { TshirtGroupDto } from '../dto/tshirt-group.dto';
+import { QuestionDto } from '../dto/question.dto';
+import { ApprovalDto } from '../dto/approval.dto';
+import { SettingDto } from '../dto/setting.dto';
+import { RegistrationDto } from '../dto/registration.dto';
+import { AttachmentDto } from '../dto/attachment.dto';
+import { SASToken } from '../dto/sas-token.dto';
 
 @Injectable()
 export class RegistrationService {

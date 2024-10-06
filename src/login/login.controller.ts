@@ -1,4 +1,29 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Body, Post } from '@nestjs/common';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { LoginActivateDto } from '../dto/login-activate.dto';
+import { LoginDto } from '../dto/login.dto';
+import { LoginMailDto } from '../dto/logon-mail.dto';
 
 @Controller('login')
-export class LoginController {}
+@ApiTags('login')
+export class LoginController {
+
+    @Post("login")
+    @ApiResponse({ status: 500, description: 'Internal server error.'})
+    async activateLogin(@Body() loginActivateDto: LoginActivateDto) : Promise<LoginDto> {
+        return null;
+    }
+
+    @Post("logout")
+    @ApiResponse({ status: 500, description: 'Internal server error.'})
+    async logout() {
+        return null;
+    }
+
+    @Post("mailToken")
+    @ApiResponse({ status: 500, description: 'Internal server error.'})
+    async mailToken(@Body() loginMailDto: LoginMailDto) {
+        return null;
+    }
+
+}
