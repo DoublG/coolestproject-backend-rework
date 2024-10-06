@@ -9,10 +9,41 @@ import { AttachmentController } from './attachment/attachment.controller';
 import { ParticipantController } from './participant/participant.controller';
 import { LoginController } from './login/login.controller';
 import { MailerService } from './mailer/mailer.service';
-import { AdminModule } from './admin/admin.module';
+
+const DEFAULT_ADMIN = {
+  email: 'admin@example.com',
+  password: 'password',
+}
+
+const authenticate = async (email: string, password: string) => {
+  if (email === DEFAULT_ADMIN.email && password === DEFAULT_ADMIN.password) {
+    return Promise.resolve(DEFAULT_ADMIN)
+  }
+  return null
+}
 
 @Module({
-  imports: [AdminModule],
+  imports: [
+    // AdminJS version 7 is ESM-only. In order to import it, you have to use dynamic imports.
+    import('@adminjs/nestjs').then(({ AdminModule }) => AdminModule.createAdminAsync({
+      useFactory: () => ({
+        adminJsOptions: {
+          rootPath: '/admin',
+          resources: [],
+        },
+        auth: {
+          authenticate,
+          cookieName: 'adminjs',
+          cookiePassword: 'secret'
+        },
+        sessionOptions: {
+          resave: true,
+          saveUninitialized: true,
+          secret: 'secret'
+        },
+      }),
+    })),
+  ],
   controllers: [AppController, RegistrationController, ProjectinfoController, UserinfoController, AttachmentController, ParticipantController, LoginController],
   providers: [AppService, RegistrationService, MailerService],
 })
