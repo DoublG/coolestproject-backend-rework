@@ -9,6 +9,9 @@ import { AttachmentController } from './attachment/attachment.controller';
 import { ParticipantController } from './participant/participant.controller';
 import { LoginController } from './login/login.controller';
 import { MailerService } from './mailer/mailer.service';
+import { SequelizeModule } from '@nestjs/sequelize';
+import { User } from './models/user.model';
+
 
 const DEFAULT_ADMIN = {
   email: 'admin@example.com',
@@ -43,8 +46,17 @@ const authenticate = async (email: string, password: string) => {
         },
       }),
     })),
+    SequelizeModule.forRoot({
+      dialect: 'mysql',
+      host: 'localhost',
+      port: 3306,
+      username: 'root',
+      password: 'root',
+      database: 'test',
+      models: [User],
+    }),
   ],
   controllers: [AppController, RegistrationController, ProjectinfoController, UserinfoController, AttachmentController, ParticipantController, LoginController],
   providers: [AppService, RegistrationService, MailerService],
 })
-export class AppModule {}
+export class AppModule { }
