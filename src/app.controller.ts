@@ -5,6 +5,8 @@ import { TshirtGroupDto } from './dto/tshirt-group.dto';
 import { QuestionDto } from './dto/question.dto';
 import { ApprovalDto } from './dto/approval.dto';
 import { SettingDto } from './dto/setting.dto';
+import { Info } from './info.decorator';
+import { InfoDto } from './dto/info.dto';
 
 @Controller()
 @ApiTags('app')
@@ -13,8 +15,8 @@ export class AppController {
 
   @Get('tshirts')
   @ApiResponse({ status: 500, description: 'Internal server error.' })
-  findAllTshirts(): Promise<TshirtGroupDto[]> {
-    return this.appService.findAllTshirts();
+  findAllTshirts(@Info() info: InfoDto): Promise<TshirtGroupDto[]> {
+    return this.appService.findAllTshirts(info);
   }
 
   @Get('questions')

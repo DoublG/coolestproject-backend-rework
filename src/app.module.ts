@@ -23,8 +23,6 @@ import { TshirtGroup } from './models/tshirt_group.model';
 import { TshirtGroupTranslation } from './models/tshirt_group_translation.model';
 import { TshirtTranslation } from './models/tshirt_translation.model';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { Sequelize } from 'sequelize-typescript';
-import { Op } from 'sequelize';
 
 const DEFAULT_ADMIN = {
   email: 'admin@example.com',
@@ -68,26 +66,6 @@ const authenticate = async (email: string, password: string) => {
       imports: [ConfigModule], // Import ConfigModule to access ConfigService
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
-        new Sequelize({
-          dialect: 'postgres',
-          host: configService.get<string>('DB_HOST') || 'db',
-          port: configService.get<number>('DB_PORT') || 5432,
-          username:
-            configService.get<string>('DB_USERNAME') || 'coolestproject',
-          password:
-            configService.get<string>('DB_PASSWORD') || 'coolestproject',
-          database:
-            configService.get<string>('DB_DATABASE') || 'coolestproject',
-          models: [Event],
-        });
-
-        const activeEvent = await Event.findOne({
-          where: {
-            eventBeginDate: { [Op.lt]: Date.now() },
-            eventEndDate: { [Op.gt]: Date.now() },
-          },
-        });
-
         return {
           dialect: 'postgres',
           host: configService.get('DB_HOST') || 'db',
@@ -110,11 +88,6 @@ const authenticate = async (email: string, password: string) => {
             TshirtGroupTranslation,
             TshirtTranslation,
           ],
-          define: {
-            defaultScope: {
-              where: { eventId: activeEvent ? activeEvent.id : null },
-            },
-          },
         };
       },
     }),

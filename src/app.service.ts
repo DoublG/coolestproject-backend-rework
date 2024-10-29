@@ -5,6 +5,7 @@ import { TshirtGroup } from './models/tshirt_group.model';
 import { Tshirt } from './models/tshirt.model';
 import { TshirtTranslation } from './models/tshirt_translation.model';
 import { TshirtGroupTranslation } from './models/tshirt_group_translation.model';
+import { InfoDto } from './dto/info.dto';
 
 @Injectable()
 export class AppService {
@@ -15,8 +16,7 @@ export class AppService {
   getHello(): string {
     return 'Hello World!';
   }
-  async findAllTshirts(): Promise<TshirtGroupDto[]> {
-    const language = 'en';
+  async findAllTshirts(info: InfoDto): Promise<TshirtGroupDto[]> {
     const groups = await this.tshirtGroupModel.findAll({
       include: [
         {
@@ -24,7 +24,7 @@ export class AppService {
           include: [
             {
               model: TshirtTranslation,
-              where: { language: language },
+              where: { language: info.language },
               attributes: ['description'],
             },
           ],
@@ -32,11 +32,12 @@ export class AppService {
         },
         {
           model: TshirtGroupTranslation,
-          where: { language: language },
+          where: { language: info.language },
           attributes: ['description'],
         },
       ],
       attributes: [],
+      where: { eventId: info.currentEvent },
     });
     return groups.map((group) => {
       return {
