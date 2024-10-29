@@ -23,7 +23,8 @@ import { TshirtGroup } from './models/tshirt_group.model';
 import { TshirtGroupTranslation } from './models/tshirt_group_translation.model';
 import { TshirtTranslation } from './models/tshirt_translation.model';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-
+import { Sequelize } from 'sequelize-typescript';
+import { Op } from 'sequelize';
 
 const DEFAULT_ADMIN = {
   email: 'admin@example.com',
@@ -66,32 +67,56 @@ const authenticate = async (email: string, password: string) => {
     SequelizeModule.forRootAsync({
       imports: [ConfigModule], // Import ConfigModule to access ConfigService
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        dialect: 'postgres',
-        host: 'db',
-        port: 5432,
-        username: 'coolestproject',
-        password: 'coolestproject',
-        database: 'coolestproject',
-        synchronize: true,
-        models: [
-          Event,
-          User,
-          Registration,
-          Tshirt,
-          Question,
-          QuestionUser,
-          QuestionRegistration,
-          Project,
-          Location,
-          TshirtGroup,
-          TshirtGroupTranslation,
-          TshirtTranslation,
-        ],
-        define: {
-          defaultScope: { where: { eventId: 1 } },
-        },
-      }),
+      useFactory: async (configService: ConfigService) => {
+        const sequelize = new Sequelize({
+          dialect: 'postgres',
+          host: configService.get<string>('DB_HOST') || 'db',
+          port: configService.get<number>('DB_PORT') || 5432,
+          username:
+            configService.get<string>('DB_USERNAME') || 'coolestproject',
+          password:
+            configService.get<string>('DB_PASSWORD') || 'coolestproject',
+          database:
+            configService.get<string>('DB_DATABASE') || 'coolestproject',
+          models: [Event],
+        });
+
+        const activeEvent = await Event.findOne({
+          where: {
+            eventBeginDate: { [Op.lt]: Date.now() },
+            eventEndDate: { [Op.gt]: Date.now() },
+          },
+        });
+
+        return {
+          dialect: 'postgres',
+          host: configService.get('DB_HOST') || 'db',
+          port: configService.get('DB_PORT') || 5432,
+          username: configService.get('DB_USER') || 'coolestproject',
+          password: configService.get('DB_PASS') || 'coolestproject',
+          database: configService.get('DB_NAME') || 'coolestproject',
+          synchronize: true,
+          models: [
+            Event,
+            User,
+            Registration,
+            Tshirt,
+            Question,
+            QuestionUser,
+            QuestionRegistration,
+            Project,
+            Location,
+            TshirtGroup,
+            TshirtGroupTranslation,
+            TshirtTranslation,
+          ],
+          define: {
+            defaultScope: {
+              where: { eventId: activeEvent ? activeEvent.id : null },
+            },
+          },
+        };
+      },
     }),
     SequelizeModule.forFeature([TshirtGroup]),
   ],
