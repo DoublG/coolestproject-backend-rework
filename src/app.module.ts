@@ -68,7 +68,7 @@ const authenticate = async (email: string, password: string) => {
       imports: [ConfigModule], // Import ConfigModule to access ConfigService
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
-        const sequelize = new Sequelize({
+        new Sequelize({
           dialect: 'postgres',
           host: configService.get<string>('DB_HOST') || 'db',
           port: configService.get<number>('DB_PORT') || 5432,
