@@ -10,6 +10,7 @@ import { TshirtTranslation } from './models/tshirt_translation.model';
 import { TshirtGroupTranslation } from './models/tshirt_group_translation.model';
 import { InfoDto } from './dto/info.dto';
 import { Op } from 'sequelize';
+import { ApprovalDto } from './dto/approval.dto';
 
 @Injectable()
 export class AppService {
@@ -42,6 +43,27 @@ export class AppService {
         description: question.translations[0].description,
         positive: question.translations[0].positive,
         negative: question.translations[0].negative,
+      };
+    });
+  }
+
+  async findAllApprovals(info: InfoDto): Promise<ApprovalDto[]> {
+    const approvals = await this.questionModel.findAll({
+      include: [
+        {
+          model: QuestionTranslation,
+          where: { language: info.language },
+          attributes: ['description'],
+        },
+      ],
+      attributes: ['id', 'name'],
+      where: { eventId: info.currentEvent, mandatory: true },
+    });
+    return approvals.map((question) => {
+      return {
+        id: question.id,
+        name: question.name,
+        description: question.translations[0].description,
       };
     });
   }
