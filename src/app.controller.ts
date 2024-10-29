@@ -21,8 +21,8 @@ export class AppController {
 
   @Get('questions')
   @ApiResponse({ status: 500, description: 'Internal server error.' })
-  findAllQuestions(): Promise<QuestionDto[]> {
-    return null; //this.registrationService.findAllQuestions();
+  findAllQuestions(@Info() info: InfoDto): Promise<QuestionDto[]> {
+    return this.appService.findAllQuestions(info);
   }
 
   @Get('approvals')

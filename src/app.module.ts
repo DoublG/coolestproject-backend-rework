@@ -22,6 +22,7 @@ import { Registration } from './models/registration.model';
 import { TshirtGroup } from './models/tshirt_group.model';
 import { TshirtGroupTranslation } from './models/tshirt_group_translation.model';
 import { TshirtTranslation } from './models/tshirt_translation.model';
+import { QuestionTranslation } from './models/question_translation.model';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 const DEFAULT_ADMIN = {
@@ -74,6 +75,7 @@ const authenticate = async (email: string, password: string) => {
           password: configService.get('DB_PASS') || 'coolestproject',
           database: configService.get('DB_NAME') || 'coolestproject',
           synchronize: true,
+          autoLoadModels: true,
           models: [
             Event,
             User,
@@ -87,11 +89,12 @@ const authenticate = async (email: string, password: string) => {
             TshirtGroup,
             TshirtGroupTranslation,
             TshirtTranslation,
+            QuestionTranslation,
           ],
         };
       },
     }),
-    SequelizeModule.forFeature([TshirtGroup]),
+    SequelizeModule.forFeature([TshirtGroup, Question]),
   ],
   controllers: [
     AppController,
