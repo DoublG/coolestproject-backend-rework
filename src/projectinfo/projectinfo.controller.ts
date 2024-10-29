@@ -1,9 +1,10 @@
 import { Controller, Get, Body, Post, Delete, Patch } from '@nestjs/common';
-import { ApiTags, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiResponse, ApiCookieAuth } from '@nestjs/swagger';
 import { ProjectDto } from '../dto/project.dto';
 
 @Controller('projectinfo')
 @ApiTags('projectinfo')
+@ApiCookieAuth()
 export class ProjectinfoController {
   @Get()
   @ApiResponse({ status: 500, description: 'Internal server error.' })
