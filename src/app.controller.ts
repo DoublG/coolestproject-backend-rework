@@ -11,7 +11,7 @@ import { InfoDto } from './dto/info.dto';
 @Controller()
 @ApiTags('app')
 export class AppController {
-  constructor(private readonly appService: AppService) { }
+  constructor(private readonly appService: AppService) {}
 
   @Get('tshirts')
   @ApiResponse({ status: 500, description: 'Internal server error.' })
@@ -36,5 +36,4 @@ export class AppController {
   getSettings(): Promise<SettingDto> {
     return null; // this.registrationService.getSettings();
   }
-
 }

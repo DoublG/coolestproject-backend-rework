@@ -6,13 +6,13 @@ export const Info = createParamDecorator(async function (
   data: unknown,
   ctx: ExecutionContext,
 ) {
-  //const request = ctx.switchToHttp().getRequest();
+  const request = ctx.switchToHttp().getRequest();
   const activeEvent = await Event.findOne({
     where: {
       eventBeginDate: { [Op.lt]: Date.now() },
       eventEndDate: { [Op.gt]: Date.now() },
     },
   });
-
-  return { currentEvent: activeEvent ? activeEvent.id : null, language: 'en' };
+  const lang = request.acceptsLanguages('fr', 'nl', 'en');
+  return { currentEvent: activeEvent ? activeEvent.id : null, language: lang };
 });
