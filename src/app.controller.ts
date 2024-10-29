@@ -14,7 +14,7 @@ export class AppController {
   @Get('tshirts')
   @ApiResponse({ status: 500, description: 'Internal server error.' })
   findAllTshirts(): Promise<TshirtGroupDto[]> {
-    return null; //this.registrationService.findAllTshirts();
+    return this.appService.findAllTshirts();
   }
 
   @Get('questions')

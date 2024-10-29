@@ -1,4 +1,19 @@
-import { Column, Model, Table, ForeignKey, IsEmail, IsIn, Length, Index, BelongsToMany, BelongsTo, HasOne, HasMany, DataType, AllowNull } from 'sequelize-typescript';
+import {
+  Column,
+  Model,
+  Table,
+  ForeignKey,
+  IsEmail,
+  IsIn,
+  Length,
+  Index,
+  BelongsToMany,
+  BelongsTo,
+  HasOne,
+  HasMany,
+  DataType,
+  AllowNull,
+} from 'sequelize-typescript';
 import { Event } from './event.model';
 import { Project } from './project.model';
 import { Question } from './question.model';
@@ -34,8 +49,8 @@ export class User extends Model {
   @Column({ type: DataType.ENUM('nl', 'fr', 'en'), allowNull: false })
   language: string;
 
-  @Column({ type: DataType.INTEGER, allowNull: false })
   @Length({ min: 1000, max: 9999 })
+  @Column({ type: DataType.INTEGER, allowNull: false })
   postalcode: number;
 
   @Column(DataType.STRING(30))
@@ -49,9 +64,9 @@ export class User extends Model {
   @Column(DataType.STRING(20))
   box_number: string;
 
-  @Column(DataType.STRING(254))
   @IsEmail
   @Index({ name: 'email-event-unique', unique: true })
+  @Column(DataType.STRING(254))
   email: string;
 
   @Column
@@ -84,7 +99,7 @@ export class User extends Model {
   @Column(DataType.STRING(2000))
   internalinfo: string;
 
-  @Column(DataType.STRING(254))
   @IsEmail
+  @Column(DataType.STRING(254))
   email_guardian: string;
 }

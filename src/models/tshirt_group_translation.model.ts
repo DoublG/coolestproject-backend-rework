@@ -1,22 +1,27 @@
 import { Event } from './event.model';
+import { TshirtGroup } from './tshirt_group.model';
 import {
   Column,
   Model,
   Table,
   ForeignKey,
   BelongsTo,
-  HasMany,
+  DataType,
 } from 'sequelize-typescript';
-import { TshirtGroup } from './tshirt_group.model';
-import { TshirtTranslation } from './tshirt_translation.model';
 
 @Table
-export class Tshirt extends Model {
+export class TshirtGroupTranslation extends Model {
+  @Column({ type: DataType.ENUM('nl', 'fr', 'en'), allowNull: false })
+  language: string;
+
+  @Column(DataType.STRING(250))
+  description: string;
+
   @BelongsTo(() => Event)
   event: Event;
 
   @BelongsTo(() => TshirtGroup)
-  group: TshirtGroup;
+  group: Event;
 
   @ForeignKey(() => Event)
   @Column
@@ -25,10 +30,4 @@ export class Tshirt extends Model {
   @ForeignKey(() => TshirtGroup)
   @Column
   groupId: number;
-
-  @Column
-  name: string;
-
-  @HasMany(() => TshirtTranslation)
-  translations: TshirtTranslation[];
 }

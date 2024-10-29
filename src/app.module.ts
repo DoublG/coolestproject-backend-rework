@@ -11,52 +11,99 @@ import { LoginController } from './login/login.controller';
 import { MailerService } from './mailer/mailer.service';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { User } from './models/user.model';
+import { Event } from './models/event.model';
+import { Tshirt } from './models/tshirt.model';
+import { Question } from './models/question.model';
+import { QuestionUser } from './models/question_user.model';
+import { QuestionRegistration } from './models/question_registration.model';
+import { Project } from './models/project.model';
+import { Location } from './models/location.model';
+import { Registration } from './models/registration.model';
+import { TshirtGroup } from './models/tshirt_group.model';
+import { TshirtGroupTranslation } from './models/tshirt_group_translation.model';
+import { TshirtTranslation } from './models/tshirt_translation.model';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 
 const DEFAULT_ADMIN = {
   email: 'admin@example.com',
   password: 'password',
-}
+};
 
 const authenticate = async (email: string, password: string) => {
   if (email === DEFAULT_ADMIN.email && password === DEFAULT_ADMIN.password) {
-    return Promise.resolve(DEFAULT_ADMIN)
+    return Promise.resolve(DEFAULT_ADMIN);
   }
-  return null
-}
+  return null;
+};
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true, // Makes the config available globally
+    }),
     // AdminJS version 7 is ESM-only. In order to import it, you have to use dynamic imports.
-    import('@adminjs/nestjs').then(({ AdminModule }) => AdminModule.createAdminAsync({
-      useFactory: () => ({
-        adminJsOptions: {
-          rootPath: '/admin',
-          resources: [],
-        },
-        auth: {
-          authenticate,
-          cookieName: 'adminjs',
-          cookiePassword: 'secret'
-        },
-        sessionOptions: {
-          resave: true,
-          saveUninitialized: true,
-          secret: 'secret'
+    import('@adminjs/nestjs').then(({ AdminModule }) =>
+      AdminModule.createAdminAsync({
+        useFactory: () => ({
+          adminJsOptions: {
+            rootPath: '/admin',
+            resources: [],
+          },
+          auth: {
+            authenticate,
+            cookieName: 'adminjs',
+            cookiePassword: 'secret',
+          },
+          sessionOptions: {
+            resave: true,
+            saveUninitialized: true,
+            secret: 'secret',
+          },
+        }),
+      }),
+    ),
+    SequelizeModule.forRootAsync({
+      imports: [ConfigModule], // Import ConfigModule to access ConfigService
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        dialect: 'postgres',
+        host: 'db',
+        port: 5432,
+        username: 'coolestproject',
+        password: 'coolestproject',
+        database: 'coolestproject',
+        synchronize: true,
+        models: [
+          Event,
+          User,
+          Registration,
+          Tshirt,
+          Question,
+          QuestionUser,
+          QuestionRegistration,
+          Project,
+          Location,
+          TshirtGroup,
+          TshirtGroupTranslation,
+          TshirtTranslation,
+        ],
+        define: {
+          defaultScope: { where: { eventId: 1 } },
         },
       }),
-    })),
-    SequelizeModule.forRoot({
-      dialect: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'root',
-      database: 'test',
-      models: [User],
     }),
+    SequelizeModule.forFeature([TshirtGroup]),
   ],
-  controllers: [AppController, RegistrationController, ProjectinfoController, UserinfoController, AttachmentController, ParticipantController, LoginController],
+  controllers: [
+    AppController,
+    RegistrationController,
+    ProjectinfoController,
+    UserinfoController,
+    AttachmentController,
+    ParticipantController,
+    LoginController,
+  ],
   providers: [AppService, RegistrationService, MailerService],
 })
-export class AppModule { }
+export class AppModule {}

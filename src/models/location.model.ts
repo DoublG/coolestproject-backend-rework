@@ -1,7 +1,12 @@
 import { Column, Model, Table, HasMany, ForeignKey, BelongsTo } from 'sequelize-typescript';
-import { Question } from './question.model';
-import { User } from './user.model';
+import { Event } from './event.model';
 
 @Table
 export class Location extends Model {
+    @BelongsTo(() => Event)
+    event: Event;
+
+    @ForeignKey(() => Event)
+    @Column
+    eventId: number;
 }
