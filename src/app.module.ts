@@ -94,7 +94,13 @@ const authenticate = async (email: string, password: string) => {
         };
       },
     }),
-    SequelizeModule.forFeature([TshirtGroup, Question]),
+    SequelizeModule.forFeature([
+      TshirtGroup,
+      Question,
+      Event,
+      Registration,
+      User,
+    ]),
   ],
   controllers: [
     AppController,

@@ -75,4 +75,10 @@ export class Event extends Model {
     },
   })
   projectClosed: boolean;
+
+  @Column
+  maxFileSize: number;
+
+  @Column
+  event_title: string;
 }

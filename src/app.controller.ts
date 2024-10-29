@@ -33,7 +33,7 @@ export class AppController {
 
   @Get('settings')
   @ApiResponse({ status: 500, description: 'Internal server error.' })
-  getSettings(): Promise<SettingDto> {
-    return null; // this.registrationService.getSettings();
+  getSettings(@Info() info: InfoDto): Promise<SettingDto> {
+    return this.appService.getSettings(info);
   }
 }
