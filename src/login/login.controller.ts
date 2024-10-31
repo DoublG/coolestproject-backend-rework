@@ -1,5 +1,5 @@
 import { Controller, Body, Post } from '@nestjs/common';
-import { ApiBearerAuth, ApiCookieAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoginActivateDto } from '../dto/login-activate.dto';
 import { LoginDto } from '../dto/login.dto';
 import { LoginMailDto } from '../dto/logon-mail.dto';
@@ -7,8 +7,7 @@ import { LoginMailDto } from '../dto/logon-mail.dto';
 @Controller('login')
 @ApiTags('login')
 export class LoginController {
-  @Post('login')
-  @ApiBearerAuth()
+  @Post()
   @ApiResponse({ status: 500, description: 'Internal server error.' })
   async activateLogin(
     @Body() loginActivateDto: LoginActivateDto,

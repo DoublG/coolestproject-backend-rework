@@ -24,6 +24,7 @@ import { TshirtGroupTranslation } from './models/tshirt_group_translation.model'
 import { TshirtTranslation } from './models/tshirt_translation.model';
 import { QuestionTranslation } from './models/question_translation.model';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AzureBlobService } from './azureblob/azureblob.service';
 
 const DEFAULT_ADMIN = {
   email: 'admin@example.com',
@@ -111,6 +112,6 @@ const authenticate = async (email: string, password: string) => {
     ParticipantController,
     LoginController,
   ],
-  providers: [AppService, RegistrationService, MailerService],
+  providers: [AppService, RegistrationService, MailerService, AzureBlobService],
 })
 export class AppModule {}

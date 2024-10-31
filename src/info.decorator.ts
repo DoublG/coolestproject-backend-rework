@@ -14,5 +14,7 @@ export const Info = createParamDecorator(async function (
     },
   });
   const lang = request.acceptsLanguages('fr', 'nl', 'en');
-  return { currentEvent: activeEvent ? activeEvent.id : null, language: lang };
+  request.currentEvent = activeEvent ? activeEvent.id : null; //side effect
+
+  return { currentEvent: request.currentEvent, language: lang };
 });
