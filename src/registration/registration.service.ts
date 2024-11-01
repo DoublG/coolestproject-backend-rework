@@ -5,10 +5,14 @@ import { InfoDto } from 'src/dto/info.dto';
 import { User } from 'src/models/user.model';
 import { Event } from 'src/models/event.model';
 import { MailerService } from '../mailer/mailer.service';
+import { TokensService } from 'src/tokens/tokens.service';
 
 @Injectable()
 export class RegistrationService {
-  constructor(private mailerService: MailerService) {}
+  constructor(
+    private mailerService: MailerService,
+    private tokenService: TokensService,
+  ) {}
 
   async create(info: InfoDto, createRegistrationDto: RegistrationDto) {
     const emailUserFound = await User.count({
@@ -86,7 +90,19 @@ export class RegistrationService {
     if (userCount + registrationCount >= event.maxRegistration) {
       registration.waiting_list = true;
     }
+    const r = await registration.save();
 
-    return await registration.save();
+    // send mails
+    if (registration.waiting_list) {
+      await this.mailerService.waitingListMail(createRegistrationDto.user);
+    } else {
+      const token = await this.tokenService.generateRegistrationToken(r.id);
+      await this.mailerService.registrationMail(
+        createRegistrationDto.user,
+        token,
+      );
+    }
+
+    return null;
   }
 }
