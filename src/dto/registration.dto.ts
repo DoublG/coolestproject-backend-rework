@@ -1,10 +1,7 @@
-import { OtherProjectDto } from './other-project.dto';
-import { OwnProjectDto } from './own-project.dto';
-import { AttachmentDto } from './attachment.dto';
-
+import { UserDto } from './user.dto';
+import { ProjectDto } from './project.dto';
 
 export class RegistrationDto {
-    own_project: OwnProjectDto;
-    other_project: OtherProjectDto;
-    attachments: AttachmentDto[];
+  user: UserDto;
+  project: ProjectDto;
 }

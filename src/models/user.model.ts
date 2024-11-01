@@ -4,15 +4,12 @@ import {
   Table,
   ForeignKey,
   IsEmail,
-  IsIn,
   Length,
   Index,
   BelongsToMany,
   BelongsTo,
   HasOne,
-  HasMany,
   DataType,
-  AllowNull,
 } from 'sequelize-typescript';
 import { Event } from './event.model';
 import { Project } from './project.model';
@@ -20,11 +17,8 @@ import { Question } from './question.model';
 import { QuestionUser } from './question_user.model';
 import { Tshirt } from './tshirt.model';
 
-
-
 @Table
 export class User extends Model {
-
   @ForeignKey(() => Event)
   @Column
   @Index({ name: 'email-event-unique', unique: true })

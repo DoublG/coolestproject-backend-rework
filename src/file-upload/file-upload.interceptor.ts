@@ -5,10 +5,9 @@ import {
   NestInterceptor,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { Observable, from } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Event } from '../models/event.model';
 import { Op } from 'sequelize';
-
 @Injectable()
 export class FileUploadInterceptor implements NestInterceptor {
   private readonly fileInterceptor: NestInterceptor;

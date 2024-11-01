@@ -4,7 +4,6 @@ import {
   Post,
   Param,
   Delete,
-  UploadedFile,
   BadRequestException,
 } from '@nestjs/common';
 import { ApiResponse, ApiTags, ApiCookieAuth } from '@nestjs/swagger';
