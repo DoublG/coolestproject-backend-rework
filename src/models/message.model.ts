@@ -1,21 +1,8 @@
-import {
-  Column,
-  Model,
-  Table,
-  ForeignKey,
-  BelongsTo,
-} from 'sequelize-typescript';
-import { Event } from './event.model';
+import { Column, Table } from 'sequelize-typescript';
+import { BaseEventModel } from './base_event.model';
 
 @Table({ timestamps: false })
-export class Message extends Model {
-  @ForeignKey(() => Event)
-  @Column
-  eventId: number;
-
-  @BelongsTo(() => Event)
-  event: Event;
-
+export class Message extends BaseEventModel {
   @Column
   message: string;
 

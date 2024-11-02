@@ -1,25 +1,17 @@
 import {
   Column,
-  Model,
   Table,
   ForeignKey,
   BelongsTo,
   DataType,
 } from 'sequelize-typescript';
-import { Event } from './event.model';
 import { Project } from './project.model';
+import { BaseEventModel } from './base_event.model';
 
 @Table
-export class Certificate extends Model {
+export class Certificate extends BaseEventModel {
   @Column(DataType.STRING(4000))
   text: string;
-
-  @ForeignKey(() => Event)
-  @Column
-  eventId: number;
-
-  @BelongsTo(() => Event)
-  event: Event;
 
   @ForeignKey(() => Project)
   @Column

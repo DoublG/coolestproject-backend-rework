@@ -1,7 +1,5 @@
-import { Event } from './event.model';
 import {
   Column,
-  Model,
   Table,
   ForeignKey,
   BelongsTo,
@@ -9,18 +7,12 @@ import {
 } from 'sequelize-typescript';
 import { TshirtGroup } from './tshirt_group.model';
 import { TshirtTranslation } from './tshirt_translation.model';
+import { BaseEventModel } from './base_event.model';
 
 @Table
-export class Tshirt extends Model {
-  @BelongsTo(() => Event)
-  event: Event;
-
+export class Tshirt extends BaseEventModel {
   @BelongsTo(() => TshirtGroup)
   group: TshirtGroup;
-
-  @ForeignKey(() => Event)
-  @Column
-  eventId: number;
 
   @ForeignKey(() => TshirtGroup)
   @Column

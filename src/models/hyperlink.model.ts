@@ -1,16 +1,15 @@
 import {
   Column,
-  Model,
   Table,
   BelongsTo,
   DataType,
   ForeignKey,
 } from 'sequelize-typescript';
 import { Attachment } from './attachment.model';
-import { Event } from './event.model';
+import { BaseEventModel } from './base_event.model';
 
 @Table
-export class Hyperlink extends Model {
+export class Hyperlink extends BaseEventModel {
   @Column(DataType.STRING(255))
   href: string;
 
@@ -20,11 +19,4 @@ export class Hyperlink extends Model {
   @ForeignKey(() => Attachment)
   @Column
   attachmentId: number;
-
-  @BelongsTo(() => Event)
-  event: Attachment;
-
-  @ForeignKey(() => Event)
-  @Column
-  eventId: number;
 }

@@ -14,16 +14,14 @@ import { Event } from './event.model';
 import { Question } from './question.model';
 import { QuestionRegistration } from './question_registration.model';
 import { Tshirt } from './tshirt.model';
+import { BaseEventModel } from './base_event.model';
 
 @Table
-export class Registration extends Model {
+export class Registration extends BaseEventModel {
   @ForeignKey(() => Event)
   @Index({ name: 'email-event-unique', unique: true })
   @Column
-  eventId: number;
-
-  @BelongsTo(() => Event)
-  event: Event;
+  eventId: number = 0; // override we want index on this place
 
   @ForeignKey(() => Tshirt)
   @Column

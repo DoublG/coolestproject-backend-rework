@@ -7,9 +7,10 @@ import {
 } from 'sequelize-typescript';
 import { Event } from './event.model';
 import { Attachment } from './attachment.model';
+import { BaseEventModel } from './base_event.model';
 
 @Table
-export class AzureBlob extends Model {
+export class AzureBlob extends BaseEventModel {
   @Column
   container_name: string;
 
@@ -18,13 +19,6 @@ export class AzureBlob extends Model {
 
   @Column
   size: number;
-
-  @ForeignKey(() => Event)
-  @Column
-  eventId: number;
-
-  @BelongsTo(() => Event)
-  event: Event;
 
   @ForeignKey(() => Attachment)
   @Column

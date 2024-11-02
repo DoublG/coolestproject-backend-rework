@@ -1,6 +1,5 @@
 import {
   Column,
-  Model,
   DataType,
   Table,
   ForeignKey,
@@ -8,15 +7,12 @@ import {
 } from 'sequelize-typescript';
 import { Event } from './event.model';
 import { Question } from './question.model';
+import { BaseEventModel } from './base_event.model';
 
 @Table
-export class QuestionTranslation extends Model {
+export class QuestionTranslation extends BaseEventModel {
   @Column({ type: DataType.ENUM('nl', 'fr', 'en'), allowNull: false })
   language: string;
-
-  @ForeignKey(() => Event)
-  @Column
-  eventId: number;
 
   @ForeignKey(() => Question)
   @Column
@@ -30,9 +26,6 @@ export class QuestionTranslation extends Model {
 
   @Column(DataType.STRING(120))
   negative: string;
-
-  @BelongsTo(() => Event)
-  event: Event;
 
   @BelongsTo(() => Question)
   question: Event;

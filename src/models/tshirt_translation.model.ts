@@ -1,28 +1,13 @@
-import { Event } from './event.model';
 import { Tshirt } from './tshirt.model';
-import {
-  Column,
-  Model,
-  Table,
-  ForeignKey,
-  BelongsTo,
-  DataType,
-} from 'sequelize-typescript';
-
+import { Column, Table, ForeignKey, DataType } from 'sequelize-typescript';
+import { BaseEventModel } from './base_event.model';
 @Table
-export class TshirtTranslation extends Model {
+export class TshirtTranslation extends BaseEventModel {
   @Column({ type: DataType.ENUM('nl', 'fr', 'en'), allowNull: false })
   language: string;
 
   @Column(DataType.STRING(250))
   description: string;
-
-  @BelongsTo(() => Event)
-  event: Event;
-
-  @ForeignKey(() => Event)
-  @Column
-  eventId: number;
 
   @ForeignKey(() => Tshirt)
   @Column

@@ -9,16 +9,10 @@ import { Event } from './event.model';
 import { Project } from './project.model';
 import { VoteCategory } from './vote_category.model';
 import { Account } from './account.model';
+import { BaseEventModel } from './base_event.model';
 
 @Table
-export class Award extends Model {
-  @ForeignKey(() => Event)
-  @Column
-  eventId: number;
-
-  @BelongsTo(() => Event)
-  event: Event;
-
+export class Award extends BaseEventModel {
   @ForeignKey(() => Project)
   @Column
   projectId: number;

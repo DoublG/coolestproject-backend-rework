@@ -7,20 +7,13 @@ import {
   DataType,
   HasOne,
 } from 'sequelize-typescript';
-import { Event } from './event.model';
 import { Project } from './project.model';
 import { AzureBlob } from './azure_blob.model';
 import { Hyperlink } from './hyperlink.model';
+import { BaseEventModel } from './base_event.model';
 
 @Table
-export class Attachment extends Model {
-  @ForeignKey(() => Event)
-  @Column
-  eventId: number;
-
-  @BelongsTo(() => Event)
-  event: Event;
-
+export class Attachment extends BaseEventModel {
   @ForeignKey(() => Project)
   @Column
   projectId: number;

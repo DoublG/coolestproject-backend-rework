@@ -11,16 +11,10 @@ import {
   DataType,
   BelongsToMany,
 } from 'sequelize-typescript';
+import { BaseEventModel } from './base_event.model';
 
 @Table({ tableName: 'tables' })
-export class EventTable extends Model {
-  @BelongsTo(() => Event)
-  event: Event;
-
-  @ForeignKey(() => Event)
-  @Column
-  eventId: number;
-
+export class EventTable extends BaseEventModel {
   @BelongsToMany(() => Project, () => ProjectTable)
   table: EventTable;
 

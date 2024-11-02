@@ -1,10 +1,8 @@
 import {
   Column,
-  Model,
   Table,
   ForeignKey,
   IsEmail,
-  Length,
   Index,
   BelongsToMany,
   BelongsTo,
@@ -16,17 +14,10 @@ import { Project } from './project.model';
 import { Question } from './question.model';
 import { QuestionUser } from './question_user.model';
 import { Tshirt } from './tshirt.model';
+import { BaseEventModel } from './base_event.model';
 
 @Table
-export class User extends Model {
-  @ForeignKey(() => Event)
-  @Column
-  @Index({ name: 'email-event-unique-user', unique: true })
-  eventId: number;
-
-  @BelongsTo(() => Event)
-  event: Event;
-
+export class User extends BaseEventModel {
   @ForeignKey(() => Tshirt)
   @Column
   tshirtId: number;
@@ -103,4 +94,5 @@ export class User extends Model {
   @IsEmail
   @Column(DataType.STRING(254))
   email_guardian: string;
+
 }
