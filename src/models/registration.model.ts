@@ -14,11 +14,11 @@ import { Event } from './event.model';
 import { Question } from './question.model';
 import { QuestionRegistration } from './question_registration.model';
 import { Tshirt } from './tshirt.model';
-import { UUID } from 'crypto';
 
 @Table
 export class Registration extends Model {
   @ForeignKey(() => Event)
+  @Index({ name: 'email-event-unique', unique: true })
   @Column
   eventId: number;
 

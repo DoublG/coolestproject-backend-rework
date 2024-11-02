@@ -1,7 +1,30 @@
-import { Column, Model, Table, HasMany, ForeignKey, BelongsTo } from 'sequelize-typescript';
-import { Question } from './question.model';
-import { User } from './user.model';
+import {
+  Column,
+  Model,
+  Table,
+  BelongsTo,
+  DataType,
+  ForeignKey,
+} from 'sequelize-typescript';
+import { Attachment } from './attachment.model';
+import { Event } from './event.model';
 
 @Table
 export class Hyperlink extends Model {
+  @Column(DataType.STRING(255))
+  href: string;
+
+  @BelongsTo(() => Attachment)
+  attachment: Attachment;
+
+  @ForeignKey(() => Attachment)
+  @Column
+  attachmentId: number;
+
+  @BelongsTo(() => Event)
+  event: Attachment;
+
+  @ForeignKey(() => Event)
+  @Column
+  eventId: number;
 }

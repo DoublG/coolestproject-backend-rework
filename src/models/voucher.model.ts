@@ -5,15 +5,14 @@ import {
   ForeignKey,
   BelongsTo,
   DataType,
+  Index,
 } from 'sequelize-typescript';
 import { Event } from './event.model';
 import { Project } from './project.model';
+import { User } from './user.model';
 
 @Table
-export class Certificate extends Model {
-  @Column(DataType.STRING(4000))
-  text: string;
-
+export class Voucher extends Model {
   @ForeignKey(() => Event)
   @Column
   eventId: number;
@@ -27,4 +26,15 @@ export class Certificate extends Model {
 
   @BelongsTo(() => Project)
   project: Project;
+
+  @ForeignKey(() => User)
+  @Column
+  participantId: number;
+
+  @BelongsTo(() => User)
+  participant: User;
+
+  @Index({ unique: true })
+  @Column(DataType.UUID)
+  voucherGuid: number;
 }

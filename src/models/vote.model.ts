@@ -4,16 +4,14 @@ import {
   Table,
   ForeignKey,
   BelongsTo,
-  DataType,
 } from 'sequelize-typescript';
 import { Event } from './event.model';
 import { Project } from './project.model';
+import { Account } from './account.model';
+import { VoteCategory } from './vote_category.model';
 
 @Table
-export class Certificate extends Model {
-  @Column(DataType.STRING(4000))
-  text: string;
-
+export class Vote extends Model {
   @ForeignKey(() => Event)
   @Column
   eventId: number;
@@ -27,4 +25,18 @@ export class Certificate extends Model {
 
   @BelongsTo(() => Project)
   project: Project;
+
+  @BelongsTo(() => Account)
+  acccount: Account;
+
+  @ForeignKey(() => Account)
+  @Column
+  accountId: number;
+
+  @BelongsTo(() => VoteCategory)
+  category: VoteCategory;
+
+  @ForeignKey(() => VoteCategory)
+  @Column
+  categoryId: number;
 }

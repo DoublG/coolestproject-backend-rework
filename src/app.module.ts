@@ -13,6 +13,8 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { User } from './models/user.model';
 import { Event } from './models/event.model';
 import { Tshirt } from './models/tshirt.model';
+import { EventTable } from './models/event_table.model';
+import { ProjectTable } from './models/project_table.model';
 import { Question } from './models/question.model';
 import { QuestionUser } from './models/question_user.model';
 import { QuestionRegistration } from './models/question_registration.model';
@@ -25,6 +27,16 @@ import { TshirtTranslation } from './models/tshirt_translation.model';
 import { QuestionTranslation } from './models/question_translation.model';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AzureBlobService } from './azureblob/azureblob.service';
+import { TokensService } from './tokens/tokens.service';
+import { Voucher } from './models/voucher.model';
+import { AzureBlob } from './models/azure_blob.model';
+import { Attachment } from './models/attachment.model';
+import { Hyperlink } from './models/hyperlink.model';
+import { Certificate } from './models/certificate.model';
+import { Message } from './models/message.model';
+import { Vote } from './models/vote.model';
+import { VoteCategory } from './models/vote_category.model';
+import { Account } from './models/account.model';
 
 const DEFAULT_ADMIN = {
   email: 'admin@example.com',
@@ -91,6 +103,17 @@ const authenticate = async (email: string, password: string) => {
             TshirtGroupTranslation,
             TshirtTranslation,
             QuestionTranslation,
+            EventTable,
+            ProjectTable,
+            Voucher,
+            AzureBlob,
+            Attachment,
+            Hyperlink,
+            Certificate,
+            Message,
+            Vote,
+            VoteCategory,
+            Account,
           ],
         };
       },
@@ -112,6 +135,12 @@ const authenticate = async (email: string, password: string) => {
     ParticipantController,
     LoginController,
   ],
-  providers: [AppService, RegistrationService, MailerService, AzureBlobService],
+  providers: [
+    AppService,
+    RegistrationService,
+    MailerService,
+    AzureBlobService,
+    TokensService,
+  ],
 })
 export class AppModule {}
