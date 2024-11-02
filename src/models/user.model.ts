@@ -43,8 +43,15 @@ export class User extends Model {
   @Column({ type: DataType.ENUM('nl', 'fr', 'en'), allowNull: false })
   language: string;
 
-  @Length({ min: 1000, max: 9999 })
-  @Column({ type: DataType.INTEGER, allowNull: false })
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+    validate: {
+      isInt: true,
+      min: 1000,
+      max: 9999,
+    },
+  })
   postalcode: number;
 
   @Column(DataType.STRING(30))

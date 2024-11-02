@@ -73,6 +73,14 @@ const authenticate = async (email: string, password: string) => {
             where: { eventId: 1 },
           });
 
+          Tshirt.addScope('defaultScope', {
+            where: { eventId: 1 },
+          });
+
+          TshirtGroup.addScope('defaultScope', {
+            where: { eventId: 1 },
+          });
+
           return {
             adminJsOptions: {
               rootPath: '/admin',
@@ -83,6 +91,14 @@ const authenticate = async (email: string, password: string) => {
                 },
                 {
                   resource: User,
+                  options: {},
+                },
+                {
+                  resource: Tshirt,
+                  options: {},
+                },
+                {
+                  resource: TshirtGroup,
                   options: {},
                 },
               ],
