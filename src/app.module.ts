@@ -62,22 +62,43 @@ const authenticate = async (email: string, password: string) => {
     // AdminJS version 7 is ESM-only. In order to import it, you have to use dynamic imports.
     import('@adminjs/nestjs').then(({ AdminModule }) =>
       AdminModule.createAdminAsync({
-        useFactory: () => ({
-          adminJsOptions: {
-            rootPath: '/admin',
-            resources: [],
-          },
-          auth: {
-            authenticate,
-            cookieName: 'adminjs',
-            cookiePassword: 'secret',
-          },
-          sessionOptions: {
-            resave: true,
-            saveUninitialized: true,
-            secret: 'secret',
-          },
-        }),
+        useFactory: async () => {
+          const { Database, Resource } = await import('@adminjs/sequelize');
+          const { AdminJS } = await import('adminjs');
+
+          AdminJS.registerAdapter({ Database, Resource });
+
+          // Add default scopes (current event only)
+          User.addScope('defaultScope', {
+            where: { eventId: 1 },
+          });
+
+          return {
+            adminJsOptions: {
+              rootPath: '/admin',
+              resources: [
+                {
+                  resource: Event,
+                  options: {},
+                },
+                {
+                  resource: User,
+                  options: {},
+                },
+              ],
+            },
+            auth: {
+              authenticate,
+              cookieName: 'adminjs',
+              cookiePassword: 'secret',
+            },
+            sessionOptions: {
+              resave: true,
+              saveUninitialized: true,
+              secret: 'secret',
+            },
+          };
+        },
       }),
     ),
     SequelizeModule.forRootAsync({

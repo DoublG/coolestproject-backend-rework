@@ -1,7 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 
-
 @Injectable()
 export class BackgroundService {
   private readonly logger = new Logger(BackgroundService.name);
