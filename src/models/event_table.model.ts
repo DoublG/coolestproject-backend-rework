@@ -12,7 +12,7 @@ import {
   BelongsToMany,
 } from 'sequelize-typescript';
 
-@Table
+@Table({ tableName: 'tables' })
 export class EventTable extends Model {
   @BelongsTo(() => Event)
   event: Event;
@@ -39,5 +39,4 @@ export class EventTable extends Model {
 
   @BelongsTo(() => Location)
   location: Location;
-
 }

@@ -37,6 +37,7 @@ import { Message } from './models/message.model';
 import { Vote } from './models/vote.model';
 import { VoteCategory } from './models/vote_category.model';
 import { Account } from './models/account.model';
+import { Award } from './models/award.model';
 
 const DEFAULT_ADMIN = {
   email: 'admin@example.com',
@@ -114,6 +115,7 @@ const authenticate = async (email: string, password: string) => {
             Vote,
             VoteCategory,
             Account,
+            Award,
           ],
         };
       },

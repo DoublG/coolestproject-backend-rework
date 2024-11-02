@@ -1,4 +1,4 @@
-import { Column, Model, Table, HasMany, ForeignKey, BelongsTo } from 'sequelize-typescript';
+import { Column, Model, Table, DataType } from 'sequelize-typescript';
 import { compareSync } from 'bcrypt';
 
 @Table
@@ -9,10 +9,10 @@ export class Account extends Model {
   @Column
   password: string;
 
-  @Column
+  @Column(DataType.ENUM('super_admin', 'admin', 'jury'))
   account_type: string;
 
-  verifyPassword(password) {
+  verifyPassword(password: string) {
     return compareSync(password, this.password);
   }
 }
