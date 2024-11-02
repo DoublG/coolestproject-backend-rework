@@ -38,6 +38,8 @@ import { Vote } from './models/vote.model';
 import { VoteCategory } from './models/vote_category.model';
 import { Account } from './models/account.model';
 import { Award } from './models/award.model';
+import { ScheduleModule } from '@nestjs/schedule';
+import { BackgroundService } from './background/background.service';
 
 const DEFAULT_ADMIN = {
   email: 'admin@example.com',
@@ -53,6 +55,7 @@ const authenticate = async (email: string, password: string) => {
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true, // Makes the config available globally
     }),
@@ -90,6 +93,7 @@ const authenticate = async (email: string, password: string) => {
           database: configService.get('DB_NAME') || 'coolestproject',
           synchronize: true,
           autoLoadModels: true,
+          sync: { force: true },
           models: [
             Event,
             User,
@@ -143,6 +147,7 @@ const authenticate = async (email: string, password: string) => {
     MailerService,
     AzureBlobService,
     TokensService,
+    BackgroundService,
   ],
 })
 export class AppModule {}

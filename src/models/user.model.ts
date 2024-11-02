@@ -21,7 +21,7 @@ import { Tshirt } from './tshirt.model';
 export class User extends Model {
   @ForeignKey(() => Event)
   @Column
-  @Index({ name: 'email-event-unique', unique: true })
+  @Index({ name: 'email-event-unique-user', unique: true })
   eventId: number;
 
   @BelongsTo(() => Event)
@@ -59,7 +59,7 @@ export class User extends Model {
   box_number: string;
 
   @IsEmail
-  @Index({ name: 'email-event-unique', unique: true })
+  @Index({ name: 'email-event-unique-user', unique: true })
   @Column(DataType.STRING(254))
   email: string;
 
