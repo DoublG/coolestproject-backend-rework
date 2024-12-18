@@ -40,7 +40,7 @@ import { Account } from './models/account.model';
 import { Award } from './models/award.model';
 import { ScheduleModule } from '@nestjs/schedule';
 import { BackgroundService } from './background/background.service';
-import { BaseEventModel } from './models/base_event.model';
+import { AdminModule } from './admin/admin.module';
 
 const DEFAULT_ADMIN = {
   email: 'admin@example.com',
@@ -60,82 +60,10 @@ const authenticate = async (email: string, password: string) => {
     ConfigModule.forRoot({
       isGlobal: true, // Makes the config available globally
     }),
+    AdminModule.register(1),
+    AdminModule.register(2),
+    AdminModule.register(3),
     // AdminJS version 7 is ESM-only. In order to import it, you have to use dynamic imports.
-    import('@adminjs/nestjs').then(({ AdminModule }) =>
-      AdminModule.createAdminAsync({
-        useFactory: async () => {
-          const { Database, Resource } = await import('@adminjs/sequelize');
-          const { AdminJS } = await import('adminjs');
-
-          AdminJS.registerAdapter({ Database, Resource });
-
-          //setup event scopes for adminJs
-          const models: (typeof BaseEventModel)[] = [
-            User,
-            Tshirt,
-            TshirtGroup,
-            EventTable,
-            ProjectTable,
-            Question,
-            QuestionUser,
-            QuestionRegistration,
-            Project,
-            Location,
-            Registration,
-            TshirtGroupTranslation,
-            TshirtTranslation,
-            QuestionTranslation,
-            Voucher,
-            AzureBlob,
-            Attachment,
-            Hyperlink,
-            Certificate,
-            Message,
-            Vote,
-            VoteCategory,
-            Award,
-          ];
-
-          for (const model of models) {
-            model.setAdminEventScopes('event', [1]); // I'm not sure what the scoping is of the Sequelize models, for multiple adminJS instances My assumption is that Models are shared
-          }
-
-          return {
-            adminJsOptions: {
-              rootPath: '/admin', // TODO introduce event variable
-              resources: [
-                {
-                  resource: Event,
-                  options: {},
-                },
-                {
-                  resource: User.scope('event1'),
-                  options: {},
-                },
-                {
-                  resource: Tshirt,
-                  options: {},
-                },
-                {
-                  resource: TshirtGroup,
-                  options: {},
-                },
-              ],
-            },
-            auth: {
-              authenticate,
-              cookieName: 'adminjs',
-              cookiePassword: 'secret',
-            },
-            sessionOptions: {
-              resave: true,
-              saveUninitialized: true,
-              secret: 'secret',
-            },
-          };
-        },
-      }),
-    ),
     SequelizeModule.forRootAsync({
       imports: [ConfigModule], // Import ConfigModule to access ConfigService
       inject: [ConfigService],
@@ -187,6 +115,7 @@ const authenticate = async (email: string, password: string) => {
       Registration,
       User,
     ]),
+    AdminModule,
   ],
   controllers: [
     AppController,

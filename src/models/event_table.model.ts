@@ -13,7 +13,7 @@ import {
 } from 'sequelize-typescript';
 import { BaseEventModel } from './base_event.model';
 
-@Table({ tableName: 'tables' })
+@Table({ tableName: 'Tables' })
 export class EventTable extends BaseEventModel {
   @BelongsToMany(() => Project, () => ProjectTable)
   table: EventTable;
