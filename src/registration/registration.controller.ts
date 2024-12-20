@@ -2,8 +2,8 @@ import { Controller, Body, Post } from '@nestjs/common';
 import { ApiTags, ApiResponse } from '@nestjs/swagger';
 import { RegistrationService } from './registration.service';
 import { RegistrationDto } from '../dto/registration.dto';
-import { Info } from 'src/info.decorator';
-import { InfoDto } from 'src/dto/info.dto';
+import { Info } from '../info.decorator';
+import { InfoDto } from '../dto/info.dto';
 
 @Controller('registration')
 @ApiTags('registration')

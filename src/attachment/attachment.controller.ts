@@ -11,7 +11,7 @@ import { AzureBlobService } from '../azureblob/azureblob.service';
 import { AttachmentDto } from '../dto/attachment.dto';
 import { SASToken } from '../dto/sas-token.dto';
 import { Readable } from 'stream';
-import { InfoDto } from 'src/dto/info.dto';
+import { InfoDto } from '../dto/info.dto';
 import { Info } from '../info.decorator';
 import { Event } from '../models/event.model';
 import { FileUploadInterceptor } from '../file-upload/file-upload.interceptor';

@@ -41,18 +41,22 @@ import { Award } from './models/award.model';
 import { ScheduleModule } from '@nestjs/schedule';
 import { BackgroundService } from './background/background.service';
 import { AdminModule } from './admin/admin.module';
+import { CliModule } from './cli/cli.module';
+import { EventService } from './event/event.service';
 
+/*
 const DEFAULT_ADMIN = {
   email: 'admin@example.com',
   password: 'password',
 };
+
 
 const authenticate = async (email: string, password: string) => {
   if (email === DEFAULT_ADMIN.email && password === DEFAULT_ADMIN.password) {
     return Promise.resolve(DEFAULT_ADMIN);
   }
   return null;
-};
+};*/
 
 @Module({
   imports: [
@@ -63,7 +67,6 @@ const authenticate = async (email: string, password: string) => {
     AdminModule.register(1),
     AdminModule.register(2),
     AdminModule.register(3),
-    // AdminJS version 7 is ESM-only. In order to import it, you have to use dynamic imports.
     SequelizeModule.forRootAsync({
       imports: [ConfigModule], // Import ConfigModule to access ConfigService
       inject: [ConfigService],
@@ -116,6 +119,7 @@ const authenticate = async (email: string, password: string) => {
       User,
     ]),
     AdminModule,
+    CliModule,
   ],
   controllers: [
     AppController,
@@ -133,6 +137,7 @@ const authenticate = async (email: string, password: string) => {
     AzureBlobService,
     TokensService,
     BackgroundService,
+    EventService,
   ],
 })
 export class AppModule {}

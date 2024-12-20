@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { RegistrationDto } from '../dto/registration.dto';
-import { Registration } from 'src/models/registration.model';
-import { InfoDto } from 'src/dto/info.dto';
-import { User } from 'src/models/user.model';
-import { Event } from 'src/models/event.model';
+import { Registration } from '../models/registration.model';
+import { InfoDto } from '../dto/info.dto';
+import { User } from '../models/user.model';
+import { Event } from '../models/event.model';
 import { MailerService } from '../mailer/mailer.service';
-import { TokensService } from 'src/tokens/tokens.service';
+import { TokensService } from '../tokens/tokens.service';
 
 @Injectable()
 export class RegistrationService {

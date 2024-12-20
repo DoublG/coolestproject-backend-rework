@@ -94,5 +94,4 @@ export class User extends BaseEventModel {
   @IsEmail
   @Column(DataType.STRING(254))
   email_guardian: string;
-
 }
