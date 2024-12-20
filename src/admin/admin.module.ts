@@ -1,15 +1,33 @@
 import { Module, DynamicModule } from '@nestjs/common';
+import { MultipleAdminLoaderPromise } from '../express-custom.loader';
 
 @Module({})
 export class AdminModule {
   static async register(eventId: number): Promise<DynamicModule> {
+    console.log('register %d', eventId);
     const { AdminModule } = await import('@adminjs/nestjs');
+
+    const { Database, Resource } = await import('@adminjs/sequelize');
+    const { AdminJS } = await import('adminjs');
+
+    AdminJS.registerAdapter({ Database, Resource });
+
+    return AdminModule.createAdmin({
+      adminJsOptions: {
+        rootPath: `/admin/${eventId}`,
+        resources: [],
+      },
+      customLoader: await MultipleAdminLoaderPromise,
+    });
+    /*
     return AdminModule.createAdminAsync({
       useFactory: async () => {
         const { Database, Resource } = await import('@adminjs/sequelize');
         const { AdminJS } = await import('adminjs');
 
         AdminJS.registerAdapter({ Database, Resource });
+
+        console.log("init my")
 
         return {
           adminJsOptions: {
@@ -19,6 +37,7 @@ export class AdminModule {
         };
       },
     });
+  }*/
   }
 }
 
