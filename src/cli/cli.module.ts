@@ -53,7 +53,6 @@ import { Voucher } from 'src/models/voucher.model';
           database: configService.get('DB_NAME') || 'coolestproject',
           synchronize: true,
           autoLoadModels: true,
-          sync: { force: true },
           models: [
             Event,
             User,
