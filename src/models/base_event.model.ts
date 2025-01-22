@@ -10,7 +10,7 @@ import { Event } from './event.model';
 @Table
 export class BaseEventModel extends Model {
   @ForeignKey(() => Event)
-  @Column
+  @Column({ allowNull: false })
   eventId: number;
 
   @BelongsTo(() => Event)

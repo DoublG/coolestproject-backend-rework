@@ -72,12 +72,12 @@ const authenticate = async (email: string, password: string) => {
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
         return {
-          dialect: 'postgres',
-          host: configService.get('DB_HOST') || 'db',
-          port: configService.get('DB_PORT') || 5432,
-          username: configService.get('DB_USER') || 'coolestproject',
-          password: configService.get('DB_PASS') || 'coolestproject',
-          database: configService.get('DB_NAME') || 'coolestproject',
+          dialect: 'mysql',
+          host: configService.get('DB_HOST') || 'localhost',
+          port: configService.get('DB_PORT') || 3308,
+          username: configService.get('DB_USER') || 'coolestproject_proto',
+          password: configService.get('DB_PASS') || '44bJXqikC6okq7h',
+          database: configService.get('DB_NAME') || 'coolestproject_proto',
           synchronize: true,
           autoLoadModels: true,
           sync: { force: true },
